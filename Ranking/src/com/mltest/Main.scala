@@ -2,6 +2,8 @@ package com.mltest
 
 import scala.io.Source
 import java.text.SimpleDateFormat
+import java.io.BufferedWriter
+import java.io.FileWriter
 
 class Main {
 
@@ -284,6 +286,7 @@ object Main {
   val transactionFilePath: String = "/home/rajeev/Downloads/transaction_part-00000";
   val profiteFilePath: String = "/home/rajeev/Downloads/profitMetrics_part-00000";
   val returnCancelFilePath: String = "/home/rajeev/Downloads/returnedCancelledMetrics_part-00000";
+  val outputFilePath:String="/home/rajeev/Downloads/RankingOutput.out"
   val DISCOUNT_WEIGHT=0.4;
   val PAYTM_EARNING_WEIGHT=0.4;
   val SLA_BREACH_WEIGHT=0.2;
@@ -331,7 +334,16 @@ object Main {
     
     println("Sorting scores");
     val sortedScores=scores.toSeq.sortWith((x,y) => x._2 > y._2);
+    
+    //Write to output file
+    val writer = new BufferedWriter(new FileWriter(outputFilePath));
+    sortedScores.foreach(row => {
+      val line =s"${row._1}   ${row._2}";
+      writer.write(line);
+      writer.newLine();
+    })
     sortedScores.foreach(row => println(s"MerchantID : ${row._1}     Score : ${row._2}"))
+    
     
   }
 
