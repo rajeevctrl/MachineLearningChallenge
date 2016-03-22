@@ -69,16 +69,22 @@ Once user configures all these weights the score could be computed by formula:
 ## Computing a single score for each merchant
 This score gives a single score value to each merchant which is an aggregated values all positive and negative metrics:
 
-Score merchant = Sum(T4 Level score of merchant for each T4 level) / total number of T4 levels
+    Score merchant = Sum(T4 Level score of merchant for each T4 level) / total number of T4 levels
 
 ## Steps to run the program
 1. Provide values of following parameters included in Main object of SCALA program
-  val transactionFilePath: String = "/home/rajeev/Downloads/transaction_part-00000";
-  val profiteFilePath: String = "/home/rajeev/Downloads/profitMetrics_part-00000";
-  val returnCancelFilePath: String = "/home/rajeev/Downloads/returnedCancelledMetrics_part-00000";
-  val DISCOUNT_WEIGHT=0.4;
-  val PAYTM_EARNING_WEIGHT=0.4;
-  val SLA_BREACH_WEIGHT=0.2;
+  
+  a. val transactionFilePath: String = "/home/rajeev/Downloads/transaction_part-00000";
+  
+  b. val profiteFilePath: String = "/home/rajeev/Downloads/profitMetrics_part-00000";
+  
+  c. val returnCancelFilePath: String = "/home/rajeev/Downloads/returnedCancelledMetrics_part-00000";
+  
+  d. val DISCOUNT_WEIGHT=0.4;
+  
+  e. val PAYTM_EARNING_WEIGHT=0.4;
+  
+  f. val SLA_BREACH_WEIGHT=0.2;
 
 2. Execute main() method of Main scala object.
 
