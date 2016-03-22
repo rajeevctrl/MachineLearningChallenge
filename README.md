@@ -79,12 +79,14 @@ This score gives a single score value to each merchant which is an aggregated va
   b. val profiteFilePath: String = "/home/rajeev/Downloads/profitMetrics_part-00000";
   
   c. val returnCancelFilePath: String = "/home/rajeev/Downloads/returnedCancelledMetrics_part-00000";
+
+  d. val outputFilePath:String="/home/rajeev/Downloads/RankingOutput.out"
   
-  d. val DISCOUNT_WEIGHT=0.4;
+  e. val DISCOUNT_WEIGHT=0.4;
   
-  e. val PAYTM_EARNING_WEIGHT=0.4;
+  f. val PAYTM_EARNING_WEIGHT=0.4;
   
-  f. val SLA_BREACH_WEIGHT=0.2;
+  g. val SLA_BREACH_WEIGHT=0.2;
 
 2. Execute main() method of Main scala object.
 
