@@ -21,13 +21,13 @@ Proportionality of Score with each of above points.
  
  c. Compute average cost for each T4 level for each merchant.
  
-    Average cost of each order for T4 level = total price / total orders.
+      Average cost of each order for T4 level = total price / total orders.
  
  d. Now returns and cancellation of orders reduce overall money gained from sales. So compute amount lost due to return and cancellation for a particular T4 for a particular merchant:
  
-    Amount loss due to return= num orders returned * average price of an order
+      Amount loss due to return= num orders returned * average price of an order
  
-    Amount loss due to cancellation= num orders cancelled * average price of an order.
+      Amount loss due to cancellation= num orders cancelled * average price of an order.
  
  g. Now actual amount earned is: 
  
@@ -64,7 +64,7 @@ Now that we have computed above metrics at T4 level for each merchant. Next we w
 
 Once user configures all these weights the score could be computed by formula:
 
-T4 Level score = (discount  * DISCOUNT_WEIGHT) + (normalizedPayTmEarnings * PAYTM_EARNING_WEIGHT) + (LA_BREACH_WEIGHT/slaBreachProbability)
+    T4 Level score = (discount  * DISCOUNT_WEIGHT) + (normalizedPayTmEarnings * PAYTM_EARNING_WEIGHT) + (LA_BREACH_WEIGHT/slaBreachProbability)
 
 ## Computing a single score for each merchant
 This score gives a single score value to each merchant which is an aggregated values all positive and negative metrics:
