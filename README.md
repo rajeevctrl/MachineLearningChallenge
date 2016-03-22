@@ -19,13 +19,15 @@ Proportionality of Score with each of above points.
  
  b. Compute total number of orders for a particular T4 level for a particular merchant.
  
- c. Average cost of each order for T4 level = total price / total orders.
+ c. Compute average cost for each T4 level for each merchant.
+ 
+    Average cost of each order for T4 level = total price / total orders.
  
  d. Now returns and cancellation of orders reduce overall money gained from sales. So compute amount lost due to return and cancellation for a particular T4 for a particular merchant:
  
- e. Amount loss due to return= num orders returned * average price of an order
+    Amount loss due to return= num orders returned * average price of an order
  
- f. Amount loss due to cancellation= num orders cancelled * average price of an order.
+    Amount loss due to cancellation= num orders cancelled * average price of an order.
  
  g. Now actual amount earned is: 
  
@@ -51,9 +53,13 @@ Proportionality of Score with each of above points.
 
 ## Computation of Score for a particular T4 level
 Now that we have computed above metrics at T4 level for each merchant. Next we will be computing T4 Level scores for each merchant.
+
 1. Take following 3 parameters as input. These specify the user centric weights to be given to different metrics while computing scores:
+
   a. DISCOUNT_WEIGHT : a real number in range [0,1] specifying the weight to be given to the amount of discount offered by merchant.
+  
   b. PAYTM_EARNING_WEIGHT : a real number in range [0,1] specifying the weight to be given to the earnings by PayTM while computing score.
+  
   c. SLA_BREACH_WEIGHT : a real number in range [0,1] specifying the weight to be given to the probability of SLA breack while computing scores.
 
 Once user configures all these weights the score could be computed by formula:
