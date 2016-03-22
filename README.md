@@ -6,17 +6,17 @@ Computation of scores of mearchants dependes on following metric.
   3. SLA breach rate of shipping time.
 
 
-##Proportionality of Score with each of above points.
-1. Score directly proportional to Discount : Discount is a positive metric w.r.t customer. More is the discount given by a merchant, better is the merchant as extent of discount helps in increasing the amount of sale, thus increasing overall profit.
-2. Score directly proportional to Amount earned by PayTM : Amount earned by PayTM is a positive metric w.r.t PayTM. More the amount PayTM earns from a merchant, better is the Score of that merchant.
-3. SLA breach is inversly proportional to Score : SLA breach is a negative metric w.r.t both consumer and PayTM. SLA breach directly relates to late delivery and carelessness of merchant, leading to probable cancellation of order.
+Proportionality of Score with each of above points.
+  1. Score directly proportional to Discount : Discount is a positive metric w.r.t customer. More is the discount given by a merchant, better is the merchant as extent of discount helps in increasing the amount of sale, thus increasing overall profit.
+  2. Score directly proportional to Amount earned by PayTM : Amount earned by PayTM is a positive metric w.r.t PayTM. More the amount PayTM earns from a merchant, better is the Score of that merchant.
+  3. SLA breach is inversly proportional to Score : SLA breach is a negative metric w.r.t both consumer and PayTM. SLA breach directly relates to late delivery and carelessness of merchant, leading to probable cancellation of order.
 
 ## Computation of above metrics
-####1. Discount : discount is considered as given in [Profit Metrics] file.
-####2. Amount earned by PayTM : Computation of this metric is as follows:
-  a. Compute total price of orders for a particular T4 level for a particular merchant.
-  b. Compute total number of orders for a particular T4 level for a particular merchant.
-  c. Average cost of each order for T4 level = total price / total orders.
+1. Discount : discount is considered as given in [Profit Metrics] file.
+2. Amount earned by PayTM : Computation of this metric is as follows:
+    a. Compute total price of orders for a particular T4 level for a particular merchant.
+    b. Compute total number of orders for a particular T4 level for a particular merchant.
+    c. Average cost of each order for T4 level = total price / total orders.
   d. Now returns and cancellation of orders reduce overall money gained from sales. So compute amount lost due to return and cancellation for a particular T4 for a particular merchant:
   e. Amount loss due to return= num orders returned * average price of an order
   f. Amount loss due to cancellation= num orders cancelled * average price of an order.
