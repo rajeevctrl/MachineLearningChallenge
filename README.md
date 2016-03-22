@@ -1,86 +1,63 @@
-# Machine Learning Challenge
+# Machine Learning Challenge (Solution)
 
-Paytm has several merchants who sell merchandise across different categories. As a merchant performance manager I want to understand how well a merchant is doing but since there are so many conflicting dimensions it is hard to say how is merchant performing overall. As an example some merchants may have great service like product they advertise is exactly what they deliver, others may deliver a variation or overpromise to customer. Similarly, a merchant may sell a lot of units but they get ship late consistently and hence cause bad customer experience. 
+Computation of scores of mearchants dependes on following metric:
+1. Discount given by merchant.
+2. Amount earned by PayTM from a merchant.
+3. SLA breach rate of shipping time.
 
-We want you to come up with a universal score for every merchant to summarize their performance. Think of this as a consumer credit score where many variables are considered and you get positive points for some behaviors and negative for others.
+Proportionality of Score with each of above points.
+1. Score directly proportional to Discount : Discount is a positive metric w.r.t customer. More is the discount given by a merchant, better is the merchant as extent of discount helps in increasing the amount of sale, thus increasing overall profit.
+2. Score directly proportional to Amount earned by PayTM : Amount earned by PayTM is a positive metric w.r.t PayTM. More the amount PayTM earns from a merchant, better is the Score of that merchant.
+3. SLA breach is inversly proportional to Score : SLA breach is a negative metric w.r.t both consumer and PayTM. SLA breach directly relates to late delivery and carelessness of merchant, leading to probable cancellation of order.
 
+## Computation of above metrics
+1. Discount : discount is considered as given in [Profit Metrics] file.
+2. Amount earned by PayTM : Computation of this metric is as follows:
+  a. Compute total price of orders for a particular T4 level for a particular merchant.
+  b. Compute total number of orders for a particular T4 level for a particular merchant.
+  c. Average cost of each order for T4 level = total price / total orders.
+  d. Now returns and cancellation of orders reduce overall money gained from sales. So compute amount lost due to return and cancellation for a particular T4 for a particular merchant:
+  e. Amount loss due to return= num orders returned * average price of an order
+  f. Amount loss due to cancellation= num orders cancelled * average price of an order.
+  g. Now actual amount earned is: 
+      Actual Amount earned = Total price from transactions - Amount loss due to Return - Amount loss due to Cancellation
+  h. Now we need to normalize this amount w.r.t sum of actual amount earned by all merchants for a single T4.
+      Normalized actual amount earned = amount earned by single merchant / sum(amount earned by all merchants)
 
-##There are three datasets provided to you –
-1.	[Transactions:] – These are all the transactions from users in a fixed time period. This table has merchant id which will let you calculate summary statistics for every merchant. Here is the schema and data is in CSV format.
-  1.    merchant_id: Unique ID representing a merchant
-  2.    T1:Root Category
-  3.    T2: Sub Category
-  4.    T4: Primary Category
-  5.    order_id: Order id, think of an order as shopping cart
-  6.    order_item_id: Unique ID for every item in an order
-  7.    product_id: Product ID
-  8.    item_created_at: Time of order creation
-  9.    item_ship_by_date:  Latest date by which item must be shipped to the customer ( SLA driven)
-  10.   qty_ordered: Number of units ordered for an item
-  11.   item_mp: Original price of an item
-  12.   item_price: Price at which merchant is offering this product
-  13.   item_selling_price: Price at which this item was sold.
-  14.   item_discount: Discount offered by merchant
-  15.   fulfillment_shipped_at: Time when item was shipped from merchant to customer
-  16.   fulfillment_created_at: Time when shipment request was created for the item and merchant starts preparing the item   for shipment.
+3. SLA breach : Computation of this metric is as follows:
+  a. Fetch 'item_ship_by_date' and 'fulfillment_shipped_at' values of the row in transaction table.
+  b. Convert these values to Date type of java.util.Date
+  c. Compare these values if 'item_ship_by_date' is before 'fulfillment_shipped_at' then SLA is breached else not.
+  d. Compute sum of SLA breaches for a particular T4 for a merchant.
+  e. Find Probability(SLA Breach):
+      Probability(SLA Breach) = count SLA Breaches / Total rows for a particular T4 for a particular customer.
 
-2.	[Profit Metrics]–  This dataset has aggregated view of 3 metrics for all merchants-
-  a.	Commission%-   Average commission paid by merchant to us, aggregated by primary category (see concept of categories section below).
-  b.	Discount %-    Average discount offered by merchant to customers, aggregated by primary category.
-  c.	Cash back %-   Average cash back offered by us to customers on items sold by merchant, aggregated by primary category.                       Paytm uses cashback as a preferred method for promotions.
-Here is the schema and data is in CSV format.
-  1.  merchant_id: Unique Merchant_id
-  2.  T1: Root category
-  3.  T2: Sub Category
-  4.  T4: Primary Category
-  5.  commission_percent: Average % commission charged from merchant. This is aggregated at primary category level.
-  6.  cashback_percent: Average % cashback (discount from Paytm) given across all items sold by merchant. This is aggregated at primary category level.
-  7.  discount_percent: Average % discount given by merchant across all the orders. This is aggregated at primary category level.
+## Computation of Score for a particular T4 level
+Now that we have computed above metrics at T4 level for each merchant. Next we will be computing T4 Level scores for each merchant.
+1. Take following 3 parameters as input. These specify the user centric weights to be given to different metrics while computing scores:
+  a. DISCOUNT_WEIGHT : a real number in range [0,1] specifying the weight to be given to the amount of discount offered by merchant.
+  b. PAYTM_EARNING_WEIGHT : a real number in range [0,1] specifying the weight to be given to the earnings by PayTM while computing score.
+  c. SLA_BREACH_WEIGHT : a real number in range [0,1] specifying the weight to be given to the probability of SLA breack while computing scores.
 
-3.	[Returned Cancelled Metrics] – This dataset has all merchant related cancelled and retuned orders. Merchants sometime cancel the order in case they are not able to acquire inventory or maybe they accepted an order but does not want to ship to a particular pin code. Returns can happen if customer receives order late since merchant did not ship in time or item received is not as promised on the platform. Cancelled and returned order here are only because of merchants’ fault and general customer cancellations are not a part of it.Here is the schema and data is in CSV format.
-  1.  merchant_id: Unique Merchant_id
-  2.  T1: Root category
-  3.  T2: Sub  Category
-  4.  T4: Primary Category
-  5.  cancel_num: Total number of orders cancelled by merchant, aggregated at primary category level
-  6.  return_num: Total number of returned orders fulfilled by merchant, aggregated at primary category level
+Once user configures all these weights the score could be computed by formula:
 
-##Concept of categories 
-One thing you will notice in the datasets is category fields T1, T2, T4. All the catalogs are structured in some hierarchy. We have shared 3 levels of hierarchy where T1 -> T2 -> T4 -> Product ID. As an example Mobile and Accessories is a Root category or T1, under this we have 2 Sub categories 1) Mobiles and 2) Accessories and finally each T2 category has many T4 categories (primary category) as an example T2 category Mobiles can have 2 primary categories 1) Smart phones 2) Feature phones. 
+T4 Level score = (discount  * DISCOUNT_WEIGHT) + (normalizedPayTmEarnings * PAYTM_EARNING_WEIGHT) + (LA_BREACH_WEIGHT/slaBreachProbability)
 
-##How to complete this challenge:
-1.	Get the data from the links mentioned in data section below.
+## Computing a single score for each merchant
+This score gives a single score value to each merchant which is an aggregated values all positive and negative metrics:
 
-2.	Fork this repo in github https://github.com/PaytmLabs/MachineLearningChallenge
+Score merchant = Sum(T4 Level score of merchant for each T4 level) / total number of T4 levels
 
-3.	Complete the processing and analytics as defined first to the best of your ability with the time provided.
+## Steps to run the program
+1. Provide values of following parameters included in Main object of SCALA program
+  val transactionFilePath: String = "/home/rajeev/Downloads/transaction_part-00000";
+  val profiteFilePath: String = "/home/rajeev/Downloads/profitMetrics_part-00000";
+  val returnCancelFilePath: String = "/home/rajeev/Downloads/returnedCancelledMetrics_part-00000";
+  val DISCOUNT_WEIGHT=0.4;
+  val PAYTM_EARNING_WEIGHT=0.4;
+  val SLA_BREACH_WEIGHT=0.2;
 
-4.	Place notes in your code to help with clarity where appropriate. Make it readable enough to present to the Paytm Labs interview team.
-
-5.	Complete your work in your own github repo and send the results and code to us and/or present them during your interview.
-
-##What is expected:
-1.	Provide a list of merchant id and score and explanation of why you think some merchants should have higher score than others.
-
-2.	We expect you to be good in at least 1 programming language (Scala, java, Python, R). Please don’t complete this using one of the packaged solutions (example SAS/SPSS)
-
-3.	A good story is as important as an algorithm. We expect you to be able to communicate to us your idea, methodology and implementation. Please create a read-me describing your approach. (Visualizations can be submitted in appendix and are always appreciated but they should convey some message. Interactive visualizations get extra points)
-
-4.	Please make assumptions where necessary, we are interested in approach and if you can defend your assumption we will accept it.
-
-5.  If you find some parts of this assignment challenging or not able to finish it, don't hestitate to let us know. We can always help answer the questions and/or reduce the scope. Ultimately,journey is more important than destination!
-
-##Data
-1.  Transaction Data - https://s3.amazonaws.com/databricks-dump/datalakedr/mlTest/final/transactions/part-00000
-2.  Profit Metrics Data - https://s3.amazonaws.com/databricks-dump/datalakedr/mlTest/final/profitMetrics/part-00000)
-3.  Returned Cancelled Data - https://s3.amazonaws.com/databricks-dump/datalakedr/mlTest/final/returnedCancelledMetrics/part-00000
-
-
-
-
-
-
-
+2. Execute main() method of Main scala object.
 
 
 
