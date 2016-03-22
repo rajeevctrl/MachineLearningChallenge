@@ -13,7 +13,7 @@ Proportionality of Score with each of above points.
 
 ## Computation of above metrics
 1. Discount : discount is considered as given in [Profit Metrics] file.
-2. Amount earned by PayTM : Computation of this metric is as follows-
+2. Amount earned by PayTM : Computation of this metric is as follows.
  a. Compute total price of orders for a particular T4 level for a particular merchant.
  b. Compute total number of orders for a particular T4 level for a particular merchant.
  c. Average cost of each order for T4 level = total price / total orders.
