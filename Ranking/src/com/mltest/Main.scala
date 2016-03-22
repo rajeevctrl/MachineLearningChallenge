@@ -15,7 +15,7 @@ class Main {
     val linesIterator = Source.fromFile(transactionFilePath).getLines();
     val colNamesMap = this.getColNamesMap(linesIterator);
 
-    //val merchantIDs=scala.collection.mutable.Set[String]();
+    //val merchantIDs=scala.collection.mutable.Set[String](); 
     val linesIteratorHeaderRemoved = linesIterator.drop(1).filter { row => !row.contains("null") };
     linesIteratorHeaderRemoved.foreach { row =>
       {
@@ -331,7 +331,7 @@ object Main {
     
     println("Sorting scores");
     val sortedScores=scores.toSeq.sortWith((x,y) => x._2 > y._2);
-    sortedScores.take(10).foreach(row => println(s"MerchantID : ${row._1}     Score : ${row._2}"))
+    sortedScores.foreach(row => println(s"MerchantID : ${row._1}     Score : ${row._2}"))
     
   }
 
