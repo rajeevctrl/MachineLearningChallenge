@@ -1,12 +1,12 @@
 # Machine Learning Challenge (Solution)
 
-Computation of scores of mearchants dependes on following metric.
+##Computation of scores of mearchants dependes on following metric.
 1. Discount given by merchant.
 2. Amount earned by PayTM from a merchant.
 3. SLA breach rate of shipping time.
 
 
-Proportionality of Score with each of above points.
+##Proportionality of Score with each of above points.
 1. Score directly proportional to Discount : Discount is a positive metric w.r.t customer. More is the discount given by a merchant, better is the merchant as extent of discount helps in increasing the amount of sale, thus increasing overall profit.
 2. Score directly proportional to Amount earned by PayTM : Amount earned by PayTM is a positive metric w.r.t PayTM. More the amount PayTM earns from a merchant, better is the Score of that merchant.
 3. SLA breach is inversly proportional to Score : SLA breach is a negative metric w.r.t both consumer and PayTM. SLA breach directly relates to late delivery and carelessness of merchant, leading to probable cancellation of order.
