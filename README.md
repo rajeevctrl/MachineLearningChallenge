@@ -12,8 +12,8 @@
 3. SLA breach is inversly proportional to Score : SLA breach is a negative metric w.r.t both consumer and PayTM. SLA breach directly relates to late delivery and carelessness of merchant, leading to probable cancellation of order.
 
 ## Computation of above metrics
-1. Discount : discount is considered as given in [Profit Metrics] file.
-2. Amount earned by PayTM : Computation of this metric is as follows:
+####1. Discount : discount is considered as given in [Profit Metrics] file.
+####2. Amount earned by PayTM : Computation of this metric is as follows:
   a. Compute total price of orders for a particular T4 level for a particular merchant.
   b. Compute total number of orders for a particular T4 level for a particular merchant.
   c. Average cost of each order for T4 level = total price / total orders.
