@@ -1,9 +1,10 @@
 # Machine Learning Challenge (Solution)
 
-Computation of scores of mearchants dependes on following metric:
-Markup : 1. Discount given by merchant.
+Computation of scores of mearchants dependes on following metric.
+1. Discount given by merchant.
 2. Amount earned by PayTM from a merchant.
 3. SLA breach rate of shipping time.
+
 
 Proportionality of Score with each of above points.
 1. Score directly proportional to Discount : Discount is a positive metric w.r.t customer. More is the discount given by a merchant, better is the merchant as extent of discount helps in increasing the amount of sale, thus increasing overall profit.
