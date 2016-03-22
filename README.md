@@ -1,7 +1,7 @@
 # Machine Learning Challenge (Solution)
 
 Computation of scores of mearchants dependes on following metric:
-1. Discount given by merchant.
+Markup : 1. Discount given by merchant.
 2. Amount earned by PayTM from a merchant.
 3. SLA breach rate of shipping time.
 
