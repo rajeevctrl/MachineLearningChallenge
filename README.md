@@ -28,17 +28,25 @@ Proportionality of Score with each of above points.
  f. Amount loss due to cancellation= num orders cancelled * average price of an order.
  
  g. Now actual amount earned is: 
+ 
       Actual Amount earned = Total price from transactions - Amount loss due to Return - Amount loss due to Cancellation
       
  h. Now we need to normalize this amount w.r.t sum of actual amount earned by all merchants for a single T4.
+ 
       Normalized actual amount earned = amount earned by single merchant / sum(amount earned by all merchants)
 
 3. SLA breach : Computation of this metric is as follows:
+
   a. Fetch 'item_ship_by_date' and 'fulfillment_shipped_at' values of the row in transaction table.
+  
   b. Convert these values to Date type of java.util.Date
+  
   c. Compare these values if 'item_ship_by_date' is before 'fulfillment_shipped_at' then SLA is breached else not.
+  
   d. Compute sum of SLA breaches for a particular T4 for a merchant.
+  
   e. Find Probability(SLA Breach):
+  
       Probability(SLA Breach) = count SLA Breaches / Total rows for a particular T4 for a particular customer.
 
 ## Computation of Score for a particular T4 level
